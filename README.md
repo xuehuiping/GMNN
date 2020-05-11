@@ -1,3 +1,46 @@
+图马尔科夫神经网络 GMNN (Graph Markov Neural Networks)
+
+本仓库是改论文的pytorch实现。
+
+## 介绍
+
+对于半监督对象分类任务，GMNN集成了**统计关系学习方法**(如关系马尔科夫网络和马尔科夫逻辑网络)和**图神经网络**(如图卷积网络和图注意网络)。
+
+GMNN使用条件随机场定义所有对象标签的联合分布，使用的**伪搜索算法**对框架进行优化，它通过E-step和M-step实现。
+
+- 在E-step中，我们**推断**未标记对象的标签
+
+- 在M-step中，**学习**参数，最大限度地提高伪概率。
+
+为了便于训练该模型，我们在GMNN中引入了两个图神经网络，即GNNp和GNNq。
+
+- GNNq用来提高推理能力，通过学习对象的有效表示**特征传播**。
+
+- GNNp对局部标签依赖关系进行建模。
+
+GMNN还可以应用于许多其他应用，如无监督节点表示学习和链接分类。在本报告中，我们提供了**半监督对象分类**和**无监督节点表示学习**的代码。
+
+## 数据
+对于半监督分类任务，我们提供了Cora、Citeseer和Pubmed数据集。
+
+对于无监督节点表示学习，我们提供了Cora和Citeseer数据集。 
+
+- 均可cpu运行。运行结果见.out
+
+数据集由[Yang et al.， 2016](https://arxiv.org/abs/1603.08861)构建，我们使用来自Thomas N. Kipf的[code](https://github.com/tkipf/gcn)将数据集预处理成我们的格式。用户还可以按照提供的数据集的格式使用自己的数据集。
+
+## 使用
+半监督对象分类的代码在目录`semisupervised`
+
+
+要运行这些代码，请转到文件夹`semisupervised/codes`，执行`python run_cora.py`
+
+然后程序将运行100次并打印结果。
+
+
+
+---
+
 # GMNN
 This is an implementation of the [GMNN (Graph Markov Neural Networks)](https://arxiv.org/abs/1905.06214) model.
 
