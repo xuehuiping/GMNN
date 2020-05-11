@@ -118,7 +118,10 @@ trainer_p = Trainer(opt, gnnp)
 
 def evaluate():
     syn = nn.Linear(opt['hidden_dim'], len(vocab_real_label))
-    syn.cuda()
+    if torch.cuda.is_available():
+        syn.cuda()
+    else:
+        syn.cpu()
     gnnq.eval()
     data = trainer_q.model.predict(inputs).detach()
     lr = 0.0025
@@ -159,7 +162,10 @@ def init_q_data():
         for d in range(opt['depth']):
             preds = torch.mm(adj, preds) + target_q
             for k in range(preds.size(0)):
-                ones = torch.ones(preds.size(1)).cuda()
+                if torch.cuda.is_available():
+                    ones = torch.ones(preds.size(1)).cuda()
+                else:
+                    ones = torch.ones(preds.size(1)).cpu()
                 preds[k] = torch.where(preds[k]>0, ones, preds[k])
         target_q.copy_(preds)
 
